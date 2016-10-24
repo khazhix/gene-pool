@@ -17,8 +17,8 @@ Every human has set of characteristics:
   (O, A, B, AB)
 
 Gene pool concept:
-- Mendelian inheritance
-- Natural selection
-- Genetic drift
-- Gene flow
-- Recurrent mutation
+- Mendelian inheritance [wiki](https://en.wikipedia.org/wiki/Mendelian_inheritance)
+- Natural selection [wiki](https://en.wikipedia.org/wiki/Natural_selection)
+- Genetic drift [wiki](https://en.wikipedia.org/wiki/Genetic_drift)
+- Gene flow [wiki](https://en.wikipedia.org/wiki/Gene_flow)
+- Recurrent mutation [wiki](https://en.wikipedia.org/wiki/Recurrent_evolution)
