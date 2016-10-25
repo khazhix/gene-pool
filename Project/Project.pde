@@ -17,9 +17,9 @@ PImage img;
 float s = 1;
 int imgW = 1684;
 int imgH = 968;
-int maxPopulation = 20000;
+int maxPopulation = 2000000;
 int population;
-int numCities = 200;
+int numCities = 2000;
 
 City[] city = new City[numCities];
 
@@ -41,7 +41,7 @@ void setup(){
     int posy = int(random(imgH));
     
     if (blue(get(posx,posy)) != 0){
-      city[i] = new City(posx, posy, 200);
+      city[i] = new City(posx, posy, 2000);
       i++;
     }
   }
