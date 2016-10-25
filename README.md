@@ -8,7 +8,7 @@ Every human has set of characteristics:
 - Eye color
   (Blue, Brown, Green, Gray)
 - Color of skin
-  ([5 colors](http://www.color-hex.com/color-palette/547 "Link to colors"))
+  (Light, White, Medium, Olive, Brown, Black)
 - Hair color
   (Black, Brown, Blonde, Red)
 - Height
