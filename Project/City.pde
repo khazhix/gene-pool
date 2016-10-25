@@ -75,6 +75,16 @@ class City {
     }
   }
   
+  color getHcol(int id){
+    switch (id){
+      case 0: return color(38,50,56);
+      case 1: return color(62,39,35);
+      case 2: return color(191,54,12);
+      case 3: return color(255,241,118);
+      default: return color(0,0,0);
+    }
+  }
+  
   void displayInfo(){
     fill(0);
     rect(imgW, 0, width-imgW,800);
@@ -85,22 +95,40 @@ class City {
     noFill();
     strokeWeight(8);
     PImage icon;
-    icon = loadImage("remove_red_eye_white_72x72.png");
-    image(icon,imgW,50, 72, 72);
+    icon = loadImage("eye.png");
+    image(icon,imgW,60, 52, 52);
     for (int i = 0; i < 4; i++){
       stroke(getEcol(i));
       line(imgW+82, 70+(i*20), imgW+102,70+(i*20));
       text(eCol[i], imgW+112, 75+(i*20));
     }
-    icon = loadImage("person_outline_white_72x72.png");
-    image(icon,imgW,150,72,72);
+    icon = loadImage("skin.png");
+    image(icon,imgW,160,52,52);
     for (int i = 0; i < 6; i++){
       stroke(getScol(i));
       line(imgW+82, 170+(i*20), imgW+102,170+(i*20));
       text(sCol[i], imgW+112, 175+(i*20));
     }
-    noStroke();
     
-    println(prev);
+    icon = loadImage("hair.png");
+    image(icon,imgW,300,52,52);
+    for (int i = 0; i < 4; i++){
+      stroke(getHcol(i));
+      line(imgW+82, 310+(i*20), imgW+102,310+(i*20));
+      text(hCol[i], imgW+112, 315+(i*20));
+    }
+    
+    icon = loadImage("blood.png");
+    image(icon,imgW,400,52,52);
+    text("A", imgW+82, 415);
+    text("B", imgW+80, 435);
+    text("AB", imgW+82, 455);
+    text("O", imgW+82, 475);
+    text(bTp[0], imgW+112, 415);
+    text(bTp[1], imgW+112, 435);
+    text(bTp[2], imgW+112, 455);
+    text(bTp[3], imgW+112, 475);
+    
+    noStroke();
   }
 }
