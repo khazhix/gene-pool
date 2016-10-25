@@ -20,7 +20,7 @@ class City {
   void display(){
     fill(127,220, 247,100);
     noStroke();
-    ellipse(x,y,pop/10,pop/10);
+    ellipse(x,y,pop/100,pop/100);
   }
   
   void addPerson(Person p){
@@ -47,30 +47,60 @@ class City {
   }
   
   boolean inRange(float px, float py){
-    if ((px - x) * (px - x) + (py - y) * (py - y) <= pop*pop/400.0){
+    if ((px - x) * (px - x) + (py - y) * (py - y) <= pop*pop/40000){
       return true;
     }
     return false;
   }
   
+  color getEcol(int id){
+    switch (id){
+      case 0: return color(52,152,219);
+      case 1: return color(211,84,0);
+      case 2: return color(46,204,113);
+      case 3: return color(149,165,166);
+      default: return color(0,0,0);
+    }
+  }
+  
+  color getScol(int id){
+    switch (id){
+      case 0: return color(255,247,234);
+      case 1: return color(243,229,200);
+      case 2: return color(226,194,119);
+      case 3: return color(152,107,76);
+      case 4: return color(97,52,31);
+      case 5: return color(66,51,56);
+      default: return color(0,0,0);
+    }
+  }
+  
   void displayInfo(){
     fill(0);
     rect(imgW, 0, width-imgW,800);
-    textSize(20);
     fill(255);
-    text("CITY INFO", imgW+50, 40);
-    text("Eye color:", imgW+50, 70);
-    text("Blue   " + eCol[0], imgW+50, 100);
-    text("Brown " + eCol[1], imgW+50, 130);
-    text("Green " + eCol[2], imgW+50, 160);
-    text("Gray  " + eCol[3], imgW+50, 190);
-    text("Skin color:", imgW+50, 220);
-    text("Light  " + sCol[0], imgW+50, 250);
-    text("White  " + sCol[1], imgW+50, 280);
-    text("Medium " + sCol[2], imgW+50, 310);
-    text("Olive  " + sCol[3], imgW+50, 340);
-    text("Brown  " + sCol[4], imgW+50, 370);
-    text("Black  " + sCol[5], imgW+50, 400);
+    text("CITY INFO", imgW+80, 40);
     
+    float prev = 0;
+    noFill();
+    strokeWeight(8);
+    PImage icon;
+    icon = loadImage("remove_red_eye_white_72x72.png");
+    image(icon,imgW,50, 72, 72);
+    for (int i = 0; i < 4; i++){
+      stroke(getEcol(i));
+      line(imgW+82, 70+(i*20), imgW+102,70+(i*20));
+      text(eCol[i], imgW+112, 75+(i*20));
+    }
+    icon = loadImage("person_outline_white_72x72.png");
+    image(icon,imgW,150,72,72);
+    for (int i = 0; i < 6; i++){
+      stroke(getScol(i));
+      line(imgW+82, 170+(i*20), imgW+102,170+(i*20));
+      text(sCol[i], imgW+112, 175+(i*20));
+    }
+    noStroke();
+    
+    println(prev);
   }
 }
