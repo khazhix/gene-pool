@@ -15,6 +15,10 @@ Every human has set of characteristics:
   (150-200cm)
 - Blood type
   (O, A, B, AB)
+  
+Storing information:
+
+![](https://cloud.githubusercontent.com/assets/14161185/19684770/d0238a92-9ac1-11e6-9fb5-de5dc6f14841.png)
 
 Gene pool concept:
 - Mendelian inheritance [wiki](https://en.wikipedia.org/wiki/Mendelian_inheritance)
