@@ -2,36 +2,84 @@
 class City {
   float x, y;
   int maxP;
-  int pop = 0;
+  int pop;
   Person[] citizen;
+  int male;
+  int female;
   
   int[] eCol = new int[5];
   int[] hCol = new int[6];
   int[] sCol = new int[6];
   int[] bTp =  new int[5];
+  int[] deadC;
   
   City(float posX, float posY, int mxP){
     x = posX;
     y = posY;
     maxP = mxP;
+    pop = 0;
     citizen = new Person[mxP];
+    deadC = new int[mxP + 1];
+    male = 0;
+    female = 0;
+    for (int i = 0; i < maxP; i++){
+      citizen[i] = new Person(0);
+      citizen[i].kill();
+      deadC[i + 1] = i;
+    }
+    deadC[0] = maxP;
   }
   
   void display(){
     fill(127,220, 247,100);
     noStroke();
-    ellipse(x,y,pop/100,pop/100);
+    ellipse(x,y,pop/1000.0,pop/1000.0);
   }
   
   void addPerson(Person p){
     if (pop < maxP){
-      citizen[pop] = p;
       pop++;
       
       eCol[int((p.getTrait() >> 15) & 3)]++;
       sCol[int((p.getTrait() >> 12) & 7)]++;
       hCol[int((p.getTrait() >> 10) & 3)]++;
       bTp[int(p.getTrait() & 3)]++;
+      if (int(p.getTrait() >> 17) == 1){
+        male++;
+        citizen[deadC[deadC[0]]] = p;
+        deadC[0]--;
+      } else {
+        female++;
+        citizen[deadC[deadC[0]]] = p;
+        deadC[0]--;
+      }
+    }
+  }
+  
+  void update(){
+    for (int i = 0; i < maxP; i++){
+      if (citizen[i].isAlive()){
+        citizen[i].getOlder();
+        if (!citizen[i].isAlive()){
+          pop--;
+          eCol[int((citizen[i].getTrait() >> 15) & 3)]--;
+          sCol[int((citizen[i].getTrait() >> 12) & 7)]--;
+          hCol[int((citizen[i].getTrait() >> 10) & 3)]--;
+          bTp[int(citizen[i].getTrait() & 3)]--;
+          deadC[++deadC[0]] = i;
+          if (int(citizen[i].getTrait() >> 17) == 1) male--;
+          else female--;
+        }
+      }
+      
+    }
+    
+    int childs = int((pop / 1000.0) * 28.6);
+    while (pop < maxP && childs > 0 && male != 0 && female != 0){
+      int man = int(random(maxP-0.1));
+      int woman = int(random(maxP-0.1));
+      addPerson(citizen[man].sex(citizen[woman]));
+      childs--;
     }
   }
   
@@ -47,7 +95,7 @@ class City {
   }
   
   boolean inRange(float px, float py){
-    if ((px - x) * (px - x) + (py - y) * (py - y) <= pop*pop/40000){
+    if ((px - x) * (px - x) + (py - y) * (py - y) <= pop*pop/1000000.0){
       return true;
     }
     return false;

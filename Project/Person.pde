@@ -1,11 +1,12 @@
 
 class Person {
   long trait;
+  float age;
+  boolean alive;
   int[] epr = new int[6];
   int[] spr = new int[6];
   int[] hpr = new int[6];
-  int[] bld = new int[5];
-  Person partner;
+  int[] bld = new int[7];
   
   Person(long newT){
     trait = newT;
@@ -13,11 +14,26 @@ class Person {
     spr[int((trait >> 12) & 7)] = 100;
     hpr[int((trait >> 10) & 3)] = 100;
     bld[int(trait & 3)] = 100;
+    age = 0.0;
+    alive = true;
   }
   
-  void married(Person x){
-     partner = x;
-     x.partner = this;
+  Person sex(Person x){
+    Person child = new Person(randomTrait());
+    return child;
+  }
+  
+  void getOlder(){
+    age += 1;
+    if (age >= 100.0){alive = false;}
+  }
+  
+  void kill(){
+    alive = false;
+  }
+  
+  boolean isAlive(){
+    return alive;
   }
   
   String getEye(){
@@ -60,6 +76,10 @@ class Person {
       case 3: return "O";
       default: return "";
     }
+  }
+  
+  boolean getGender(){
+    return boolean(int(trait >> 17));
   }
   
   long getTrait(){
