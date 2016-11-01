@@ -62,12 +62,15 @@ void setup(){
     city[i].display();
   }
 }
-
+int jpg = 0;
 void draw(){
-  frameRate(1);
   fill(0);
+  tint(255,50);
   image(img,0,0, imgW, imgH);
   rect(imgW, 0, width-imgW, height);
+  
+  tint(255,50);
+  image(img,0,0, imgW, imgH);
   for (int i = 0; i < numCities; i++){
     if (city[i].inRange(mouseX, mouseY)){
       city[i].displayInfo();
@@ -77,5 +80,13 @@ void draw(){
   
   for (int i = 0; i < numCities; i++){
     city[i].display();
+  }
+  
+  int rel = int(population * 0.03);
+  while (rel > 0){
+    int rct = int(random(numCities - 0.1));
+    int rct2 = int(random(numCities- 0.1));
+    city[rct].relocate(city[rct2]);
+    rel--;
   }
 }

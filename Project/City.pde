@@ -83,9 +83,25 @@ class City {
     }
   }
   
+  void relocate(City ct){
+     int r_guy = int(random(maxP-0.1));
+     if (!ct.overPop()){
+       ct.addPerson(citizen[r_guy]);
+       citizen[r_guy].kill();
+       pop--;
+       deadC[++deadC[0]] = r_guy;
+     }
+     stroke(255, 1);
+     line(x,y,ct.getX(),ct.getY());
+     noStroke();
+  }
+  
   int getPop(){
     return pop;
   }
+  
+  float getX() {return x;}
+  float getY() {return y;}
   
   boolean overPop(){
     if (pop < maxP){
