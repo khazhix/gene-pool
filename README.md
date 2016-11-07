@@ -1,6 +1,6 @@
 # Gene Pool
 
-Gene Pool is a simulation of any population with gemetic information.
+Gene Pool is a simulation of any population with genetic information.
 
 In our example as a species we use humans.
 
