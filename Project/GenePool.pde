@@ -19,11 +19,12 @@ PImage img;
 float s = 1;
 int imgW = 1684;
 int imgH = 968;
-int maxPopulation = 200000;
+int maxPopulation = 20000;
 int population;
 int numCities = 20;
 
 City[] city = new City[numCities];
+int[] rands = new int[(numCities * (numCities + 1)) / 2];
 
 void setup(){
   //setting up background
@@ -54,6 +55,14 @@ void setup(){
     Person p = new Person(randomTrait());
     int cityId = int(random(numCities));
     if (!city[cityId].overPop()){
+      float randcol = (random(100.9));
+      if (((abs(city[cityId].getY() - 580.0) / 580.0) * 100.0) >= randcol){
+        int randcl = int(random(2.9));
+        p.setColor(randcl);
+      } else {
+        int randcl = int(random(3,5.9));
+        p.setColor(randcl);
+      }
       city[cityId].addPerson(p);
       i++;
     }
@@ -64,13 +73,15 @@ void setup(){
 }
 int jpg = 0;
 void draw(){
+  frameRate(60);
   fill(0);
-  tint(255,50);
+  population = 0;
   image(img,0,0, imgW, imgH);
   rect(imgW, 0, width-imgW, height);
-  
-  tint(255,50);
-  image(img,0,0, imgW, imgH);
+  stroke(255,255,0);
+  line(0,580,imgW, 580);
+  stroke(0);
+  if (jpg % 2 == 0){
   for (int i = 0; i < numCities; i++){
     if (city[i].inRange(mouseX, mouseY)){
       city[i].displayInfo();
@@ -81,12 +92,25 @@ void draw(){
   for (int i = 0; i < numCities; i++){
     city[i].display();
   }
+  }else {
+  for (int i = 0; i < numCities; i++){
+    if (city[i].inRange(mouseX, mouseY)){
+      city[i].displayInfo();
+    }
+    population += city[i].getPop();
+  }
   
-  int rel = int(population * 0.03);
+  int rel = int(population * 0.001);
   while (rel > 0){
     int rct = int(random(numCities - 0.1));
     int rct2 = int(random(numCities- 0.1));
     city[rct].relocate(city[rct2]);
     rel--;
   }
+  for (int i = 0; i < numCities; i++){
+    city[i].display();
+  }
+  println(population);
+  }
+  jpg++;
 }

@@ -85,13 +85,17 @@ class City {
   
   void relocate(City ct){
      int r_guy = int(random(maxP-0.1));
-     if (!ct.overPop()){
+     if (!ct.overPop() && citizen[r_guy].isAlive()){
+       eCol[int((citizen[r_guy].getTrait() >> 15) & 3)]--;
+       sCol[int((citizen[r_guy].getTrait() >> 12) & 7)]--;
+       hCol[int((citizen[r_guy].getTrait() >> 10) & 3)]--;
+       bTp[int(citizen[r_guy].getTrait() & 3)]--;
        ct.addPerson(citizen[r_guy]);
        citizen[r_guy].kill();
        pop--;
        deadC[++deadC[0]] = r_guy;
      }
-     stroke(255, 1);
+     stroke(255, 50);
      line(x,y,ct.getX(),ct.getY());
      noStroke();
   }
@@ -154,8 +158,6 @@ class City {
     rect(imgW, 0, width-imgW,800);
     fill(255);
     text("CITY INFO", imgW+80, 40);
-    
-    float prev = 0;
     noFill();
     strokeWeight(8);
     PImage icon;
@@ -194,5 +196,6 @@ class City {
     text(bTp[3], imgW+112, 475);
     
     noStroke();
+    strokeWeight(1);
   }
 }

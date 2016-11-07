@@ -18,14 +18,28 @@ class Person {
     alive = true;
   }
   
+  void setColor(int cl){
+    long px = trait & 4095;
+    trait = trait >> 15;
+    trait = trait << 3;
+    trait += cl;
+    trait = trait << 12;
+    trait += px;
+  }
+  
   Person sex(Person x){
     Person child = new Person(randomTrait());
+    //child.setColor(int(random(min(getSk(), x.getSk()), max(getSk(), x.getSk()) + 0.9)));
     return child;
   }
   
   void getOlder(){
     age += 1;
     if (age >= 100.0){alive = false;}
+  }
+  
+  int getSk(){
+    return int((trait >> 12) & 7);
   }
   
   void kill(){
