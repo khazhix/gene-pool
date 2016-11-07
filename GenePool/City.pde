@@ -1,4 +1,4 @@
-
+  
 class City {
   float x, y;
   int maxP;
@@ -31,9 +31,9 @@ class City {
   }
   
   void display(){
-    fill(127,220, 247,100);
+    fill(127, 220, 247, 100);
     noStroke();
-    ellipse(x,y,pop/1000.0,pop/1000.0);
+    ellipse(x, y, pop / 1000.0, pop / 1000.0);
   }
   
   void addPerson(Person p){
@@ -76,8 +76,8 @@ class City {
     
     int childs = int((pop / 1000.0) * 28.6);
     while (pop < maxP && childs > 0 && male != 0 && female != 0){
-      int man = int(random(maxP-0.1));
-      int woman = int(random(maxP-0.1));
+      int man = int(random(maxP - 0.1));
+      int woman = int(random(maxP - 0.1));
       addPerson(citizen[man].sex(citizen[woman]));
       childs--;
     }
@@ -115,7 +115,7 @@ class City {
   }
   
   boolean inRange(float px, float py){
-    if ((px - x) * (px - x) + (py - y) * (py - y) <= pop*pop/1000000.0){
+    if ((px - x) * (px - x) + (py - y) * (py - y) <= pop * pop / 1000.0){
       return true;
     }
     return false;
@@ -123,69 +123,69 @@ class City {
   
   color getEcol(int id){
     switch (id){
-      case 0: return color(52,152,219);
-      case 1: return color(211,84,0);
-      case 2: return color(46,204,113);
-      case 3: return color(149,165,166);
-      default: return color(0,0,0);
+      case 0: return color(52, 152, 219);
+      case 1: return color(211, 84, 0);
+      case 2: return color(46, 204, 113);
+      case 3: return color(149, 165, 166);
+      default: return color(0, 0, 0);
     }
   }
   
   color getScol(int id){
     switch (id){
-      case 0: return color(255,247,234);
-      case 1: return color(243,229,200);
-      case 2: return color(226,194,119);
-      case 3: return color(152,107,76);
-      case 4: return color(97,52,31);
-      case 5: return color(66,51,56);
-      default: return color(0,0,0);
+      case 0: return color(255, 247, 234);
+      case 1: return color(243, 229, 200);
+      case 2: return color(226, 194, 119);
+      case 3: return color(152, 107, 76);
+      case 4: return color(97, 52, 31);
+      case 5: return color(66, 51, 56);
+      default: return color(0, 0, 0);
     }
   }
   
   color getHcol(int id){
     switch (id){
-      case 0: return color(38,50,56);
-      case 1: return color(62,39,35);
-      case 2: return color(191,54,12);
-      case 3: return color(255,241,118);
-      default: return color(0,0,0);
+      case 0: return color(38, 50, 56);
+      case 1: return color(62, 39, 35);
+      case 2: return color(191, 54, 12);
+      case 3: return color(255, 241, 118);
+      default: return color(0, 0, 0);
     }
   }
   
   void displayInfo(){
     fill(0);
-    rect(imgW, 0, width-imgW,800);
+    rect(imgW, 0, width - imgW, 800);
     fill(255);
-    text("CITY INFO", imgW+80, 40);
+    text("CITY INFO", imgW + 80, 40);
     noFill();
     strokeWeight(8);
     PImage icon;
     icon = loadImage("eye.png");
-    image(icon,imgW,60, 52, 52);
+    image(icon, imgW, 60, 52, 52);
     for (int i = 0; i < 4; i++){
       stroke(getEcol(i));
-      line(imgW+82, 70+(i*20), imgW+102,70+(i*20));
-      text(eCol[i], imgW+112, 75+(i*20));
+      line(imgW+82, 70 + (i * 20), imgW + 102, 70 + (i * 20));
+      text(eCol[i], imgW + 112, 75 + (i * 20));
     }
     icon = loadImage("skin.png");
-    image(icon,imgW,160,52,52);
+    image(icon, imgW, 160, 52, 52);
     for (int i = 0; i < 6; i++){
       stroke(getScol(i));
-      line(imgW+82, 170+(i*20), imgW+102,170+(i*20));
-      text(sCol[i], imgW+112, 175+(i*20));
+      line(imgW + 82, 170 + (i * 20), imgW + 102, 170 + (i * 20));
+      text(sCol[i], imgW + 112, 175 + (i * 20));
     }
     
     icon = loadImage("hair.png");
-    image(icon,imgW,300,52,52);
+    image(icon, imgW, 300, 52, 52);
     for (int i = 0; i < 4; i++){
       stroke(getHcol(i));
-      line(imgW+82, 310+(i*20), imgW+102,310+(i*20));
-      text(hCol[i], imgW+112, 315+(i*20));
+      line(imgW + 82, 310 + (i * 20), imgW + 102, 310 + (i * 20));
+      text(hCol[i], imgW + 112, 315 + (i * 20));
     }
     
     icon = loadImage("blood.png");
-    image(icon,imgW,400,52,52);
+    image(icon, imgW, 400, 52, 52);
     text("A", imgW+82, 415);
     text("B", imgW+80, 435);
     text("AB", imgW+82, 455);
