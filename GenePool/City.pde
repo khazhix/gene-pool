@@ -12,7 +12,7 @@ class City {
   int[] sCol = new int[6];
   int[] bTp =  new int[5];
   int[] deadC;
-  
+    
   City(float posX, float posY, int mxP){
     x = posX;
     y = posY;
@@ -31,10 +31,13 @@ class City {
   }
   
   void display(){
-    fill(127, 220, 247, 100);
+    fill(253, 0, 0, 30);
+    noStroke();   
+    ellipse(x, y, pop / 100.0, pop / 100.0);
+    fill(127, 220, 247);
     noStroke();
-    ellipse(x, y, pop / 1000.0, pop / 1000.0);
-  }
+    ellipse(x, y, pop / 1000.0, pop / 1000.0);  
+}
   
   void addPerson(Person p){
     if (pop < maxP){
@@ -96,9 +99,18 @@ class City {
        deadC[++deadC[0]] = r_guy;
      }
      stroke(255, 50);
-     line(x,y,ct.getX(),ct.getY());
+     // draw the line
+     line(x, y, ct.getX(), ct.getY());
+     // draw a triangle at (x2, y2)
+     pushMatrix();
+     translate(ct.getX(), ct.getY());
+     rotate(atan2(x - ct.getX(), ct.getY() - y));
+     
+     triangle(0, 0, -10, -10, 10, -10);
+     popMatrix();
      noStroke();
   }
+  
   
   int getPop(){
     return pop;
@@ -115,7 +127,7 @@ class City {
   }
   
   boolean inRange(float px, float py){
-    if ((px - x) * (px - x) + (py - y) * (py - y) <= pop * pop / 1000.0){
+    if ((px - x) * (px - x) + (py - y) * (py - y) <= pop * pop / 10000.0){
       return true;
     }
     return false;

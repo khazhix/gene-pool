@@ -29,7 +29,8 @@ int[] rands = new int[(numCities * (numCities + 1)) / 2];
 void setup(){
   //setting up background
   background(0);
-  size(1913, 968);  smooth();
+  size(1913, 968);  
+  smooth();
   img = loadImage("world-2.jpg");
   image(img,0,0, imgW, imgH);
 
@@ -84,25 +85,25 @@ void draw(){
   line(0, 580, imgW, 580);
   stroke(0);
   
-  if (jpg % 2 == 0){
-    for (int i = 0; i < numCities; i++){
-      if (city[i].inRange(mouseX, mouseY)){
-        city[i].displayInfo();
-      }
-      city[i].update();
-    }
+  for (int i = 0; i < numCities; i++){
+    if (city[i].inRange(mouseX, mouseY)){
+          city[i].displayInfo();
+        }
+    city[i].display();  
+  }
   
-    for (int i = 0; i < numCities; i++){
-      city[i].display();
-    }
-  } else {
-    for (int i = 0; i < numCities; i++){
-      if (city[i].inRange(mouseX, mouseY)){
-        city[i].displayInfo();
+  if (mousePressed == true) {  
+    if (jpg % 2 == 0){
+      for (int i = 0; i < numCities; i++){
+        city[i].update();
       }
-      population += city[i].getPop();
+    } else {
+      for (int i = 0; i < numCities; i++){
+          population += city[i].getPop(); 
+      }
     }
-  
+    
+     
     int rel = int(population * 0.001);
     while (rel > 0){
       int rct = int(random(numCities - 0.1));
@@ -110,9 +111,7 @@ void draw(){
       city[rct].relocate(city[rct2]);
       rel--;
     }
-    for (int i = 0; i < numCities; i++){
-      city[i].display();
-    }
   }
+    
   jpg++;
 }
