@@ -235,50 +235,93 @@ class City {
     }
   }
   
-  void displayInfo(){
-    fill(0);
-    noStroke();
-    rect(imgW, 0, width-imgW,800);
+  void displayInfo(int[] history){
+    stroke(255);
+    strokeWeight(2);
+    line(880, 30, 885,25);
+    line(880, 30, 880,100);
+    line(880, 100, 885,105);
+    line(885, 105, 885,140);
+    line(885, 140, 880,145);
+    line(880, 145, 880,689);
+    line(880, 689, 885,694);
+    
+    line(1180, 25, 1185,30);
+    line(1185, 30, 1185,100);
+    line(1185, 100, 1180,105);
+    line(1180, 105, 1180,140);
+    line(1180, 140, 1185,145);
+    line(1185, 145, 1185,689);
+    line(1185, 689, 1180,694);
+    
+    line(935, 30, 940, 25);
+    line(940, 25, 1010, 25);
+    line(1010, 25, 1015, 30);
+    line(1015, 30, 1040, 30);
+    line(1040, 30, 1045, 25);
+    line(1045, 25, 1115, 25);
+    line(1115, 25, 1120, 30);
+    stroke(255,100);
+    line(885, 122, 1180, 122);
+    
+    textSize(18);
     fill(255);
-    disp+=3;
-    textSize(20);
-    text(cityName, imgW+80, 40);
-    noFill();
-    strokeWeight(4);
+    textAlign(CENTER);
+    text(cityName, 1027, 70);
+    
     PImage icon;
+    textSize(14);
     icon = loadImage("eye.png");
-    image(icon,imgW+20,60, 30, 30);
+    image(icon, 1012,150, 30, 30);
     for (int i = 0; i < 3; i++){
-      stroke(getEcol(i));
-      line(imgW+82, 70+(i*20), imgW+92,70+(i*20));
-      text(eyeCol[i], imgW+112, 75+(i*20));
+      fill(getEcol(i));
+      ellipse(1027, 190 + (i * 20), 10, 10);
+      fill(255);
+      text(eyeCol[i], 950, 193 + (i * 20));
+      text(history[i + 3], 1104, 193 + (i * 20));
     }
+    
+    strokeWeight(1);
+    stroke(255,100);
+    line(905, 250, 1160, 250);
+    
     icon = loadImage("skin.png");
-    image(icon,imgW+20,160,30,30);
+    image(icon, 1012,250, 30, 30);
     for (int i = 0; i < 7; i++){
-      stroke(getScol(i));
-      line(imgW+82, 170+(i*20), imgW+92,170+(i*20));
-      text(skinCol[i], imgW+112, 175+(i*20));
+      fill(getScol(i));
+      ellipse(1027, 290 + (i * 20), 10, 10);
+      fill(255);
+      text(skinCol[i], 950, 293 + (i * 20));
+      text(history[i + 6], 1104, 293 + (i * 20));
     }
     
+    line(905, 430, 1160, 430);
     icon = loadImage("hair.png");
-    image(icon,imgW+20,320,30,30);
+    image(icon, 1012,430, 30, 30);
     for (int i = 0; i < 5; i++){
-      stroke(getHcol(i));
-      line(imgW+82, 330+(i*20), imgW+92,330+(i*20));
-      text(hairCol[i], imgW+112, 335+(i*20));
+      fill(getHcol(i));
+      ellipse(1027, 470 + (i * 20), 10, 10);
+      fill(255);
+      text(hairCol[i], 950, 473 + (i * 20));
+      text(history[i + 13], 1104, 473 + (i * 20));
     }
     
+    line(905, 570, 1160, 570);
     icon = loadImage("blood.png");
-    image(icon,imgW+20,440,30,30);
-    text("A", imgW+82, 455);
-    text("B", imgW+80, 475);
-    text("AB", imgW+82, 495);
-    text("O", imgW+82, 515);
-    text(bloodType[0], imgW+112, 455);
-    text(bloodType[1], imgW+112, 475);
-    text(bloodType[2], imgW+112, 495);
-    text(bloodType[3], imgW+112, 515);
+    image(icon, 1012, 570, 30, 30);
+    text("A",  1027, 620);
+    text("A",  1027, 640);
+    text("AB", 1027, 660);
+    text("O",  1027, 680);
+    text(bloodType[0], 950, 620);
+    text(bloodType[1], 950, 640);
+    text(bloodType[2], 950, 660);
+    text(bloodType[3], 950, 680);
+    text(history[18], 1104, 620);
+    text(history[19], 1104, 640);
+    text(history[20], 1104, 660);
+    text(history[21], 1104, 680);
+    
     stroke(255);
     strokeWeight(1);
     line(imgW+80, 20, imgW+80+min(disp, 33), 20);

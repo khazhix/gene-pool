@@ -39,11 +39,11 @@ int[] rands = new int[(numCities * (numCities + 1)) / 2];
 void setup(){
   //setting up background
    background(0);
-  size(1300,720);  smooth(); //1913 968
+  size(1200,720);  smooth(); //1913 968
   img = loadImage("world-2.jpg");
   image(img,0,0, imgW, imgH);
 
-  font = createFont("Raleway-Regular.ttf", 17);
+  font = createFont("Raleway-Medium.ttf", 13);
   textFont(font);
   
   int i;
@@ -123,20 +123,38 @@ void setup(){
   
   stroke(255,100);
   line(25,596, 420, 596);
+  stroke(255,50);
+  text("YEAR", 125, 530);
+  text("CITIES", 125, 545);
+  text("POPULATION", 125, 560);
+  text("RELOCATIONS", 125, 575);
+  text("DEATHS", 125, 630);
+  text("BIRTHS", 125, 645);
+  text("BIRTH RATE", 125, 660);
+  text("DEATH RATE", 125, 675);
   
-  text("YEAR", 125, 540);
+  for (i = 0; i < numCities; i++){
+    history[year][0] += city[i].getPop();
+    history[year][1] += city[i].getMale();
+    history[year][2] += city[i].getFemale();
+    for (int j = 0; j < 7; j++){
+      if (j < 3)history[year][j + 3] += city[i].getEye(j);
+                history[year][j + 6] += city[i].getSkin(j);
+      if (j < 5)history[year][j + 13] += city[i].getHair(j);
+      if (j < 4)history[year][j + 18] += city[i].getBlood(j);
+    }
+  }
 }
 void draw(){
-  fill(0);
-  population = 0;
   tint(255,100);
   image(img,0,0, imgW, imgH);
   noStroke();
+  fill(0, 100);
   rect(imgW, 0, width-imgW, height);
 
   for (int i = 0; i < numCities; i++){
     if (city[i].inRange(mouseX, mouseY)){
-      city[i].displayInfo();
+      city[i].displayInfo(history[year]);
     }
     city[i].display();
   }
@@ -149,6 +167,7 @@ void draw(){
 
 void keyPressed(){
   year++;
+  population = 0;
   for (int i = 0; i < numCities; i++){
     city[i].update();
     population += city[i].getPop();
