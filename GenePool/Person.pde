@@ -1,45 +1,79 @@
 
 class Person {
-  long trait;
   float age;
+  int gender;
+  float maxAge;
   boolean alive;
-  int[] epr = new int[6];
-  int[] spr = new int[6];
-  int[] hpr = new int[6];
-  int[] bld = new int[7];
+  public int[][] gene = new int[9][2];
+  int[][] child = new int[9][2];
   
-  Person(long newT){
-    trait = newT;
-    epr[int((trait >> 15) & 3)] = 100;
-    spr[int((trait >> 12) & 7)] = 100;
-    hpr[int((trait >> 10) & 3)] = 100;
-    bld[int(trait & 3)] = 100;
-    age = 0.0;
-    alive = true;
+  Person(int[][] g, int gnd){
+    for (int i = 1; i <= 8; i++){
+      gene[i][0] = g[i][0];
+      gene[i][1] = g[i][1];
+    }
+    age    = 0.0;
+    alive  = true;
+    gender = gnd;
+    maxAge = random(50, 90);
   }
   
-  void setColor(int cl){
-    long px = trait & 4095;
-    trait = trait >> 15;
-    trait = trait << 3;
-    trait += cl;
-    trait = trait << 12;
-    trait += px;
+  void Copy(Person p){
+    for (int i = 1; i <= 8; i++){
+      gene[i][0] = p.gene[i][0];
+      gene[i][1] = p.gene[i][1];
+    }
+    age    = p.age;
+    alive  = p.alive;
+    gender = p.gender;
+    maxAge = p.maxAge;
   }
   
   Person sex(Person x){
-    Person child = new Person(randomTrait());
-    //child.setColor(int(random(min(getSk(), x.getSk()), max(getSk(), x.getSk()) + 0.9)));
-    return child;
+    int ds = int(random(8));
+    int ms = int(random(8));
+    int db = int(random(2));
+    int mb = int(random(2));
+    int de = int(random(4));
+    int me = int(random(4));
+    int dh = int(random(4));
+    int mh = int(random(4));
+    int gn = int(random(2));
+    
+    for (int i = 1; i <= 3; i++){
+      child[i][0] = gene[i][(ds >> (3-i)) % 2];
+      child[i][1] = x.gene[i][(ms >> (3-i)) % 2];
+    }
+    child[4][0] = gene[4][db];
+    child[4][1] = x.gene[4][mb];
+    child[5][0] = gene[5][(de >> 1) % 2];
+    child[5][1] = x.gene[5][(me >> 1) % 2];
+    child[6][0] = gene[6][de % 2];
+    child[6][1] = x.gene[6][me % 2];
+    child[7][0] = gene[7][(dh >> 1) % 2];
+    child[7][1] = x.gene[7][(mh >> 1) % 2];
+    child[8][0] = gene[8][dh % 2];
+    child[8][1] = x.gene[8][mh % 2];
+    Person newChild = new Person(child, gn);
+    return newChild;
   }
   
-  void getOlder(){
+  boolean isMature(){
+    if (age >= 18.0)return true;
+    return false;
+  }
+  
+  boolean getOlder(){
     age += 1;
-    if (age >= 100.0){alive = false;}
+    if (age >= maxAge){
+      alive = false; 
+      return false;
+    }
+    return true;
   }
   
-  int getSk(){
-    return int((trait >> 12) & 7);
+  float age(){
+    return age;
   }
   
   void kill(){
@@ -50,53 +84,45 @@ class Person {
     return alive;
   }
   
-  String getEye(){
-    switch (int((trait >> 15) & 3)){
-      case 0: return "Blue";
-      case 1: return "Brown";
-      case 2: return "Green";
-      case 3: return "Gray";
-      default: return "";
-    }
-  }
-  String getSkin(){
-    switch (int((trait >> 12) & 7)){
-      case 0: return "Light";
-      case 1: return "White";
-      case 2: return "Medium";
-      case 3: return "Olive";
-      case 4: return "Brown";
-      case 5: return "Black";
-      default: return "";
-    }
-  }
-  String getHair(){
-    switch (int((trait >> 10) & 3)){
-      case 0: return "Black";
-      case 1: return "Brown";
-      case 2: return "Red";
-      case 3: return "Blonde";
-      default: return "";
-    }
-  }
-  float getHeight(){
-    return (trait >> 12) & 255;
-  }
-  String getBlood(){
-    switch (int(trait & 3)){
-      case 0: return "A";
-      case 1: return "B";
-      case 2: return "AB";
-      case 3: return "O";
-      default: return "";
-    }
+  int gender(){
+    return gender;
   }
   
-  boolean getGender(){
-    return boolean(int(trait >> 17));
+  int getSkinColor(){
+    int skin = 0;
+    for (int i = 1; i <= 3; i++){
+      skin += gene[i][0] + gene[i][1];
+    }
+    return skin;
   }
   
-  long getTrait(){
-    return trait;
+  int getBloodType(){
+    if (gene[4][0] == 0){
+      if (gene[4][1] == 0 || gene[4][1] == 2)return 0;
+      if (gene[4][1] == 1)return 2;
+    }
+    if (gene[4][0] == 1){
+      if (gene[4][1] == 1 || gene[4][1] == 2)return 1;
+      if (gene[4][1] == 0)return 2;
+    }
+    if (gene[4][0] == 2){
+      if (gene[4][1] == 0)return 0;
+      if (gene[4][1] == 1)return 1;
+      if (gene[4][1] == 2)return 3;
+    }
+    return 0;
+  }
+  
+  int getEyeColor(){
+    if (gene[5][0] == 0 || gene[5][1] == 0)return 0;
+    if (gene[6][0] == 0 || gene[6][1] == 0)return 1;
+    return 2;
+  }
+  
+  int getHairColor(){
+    int hair = 0;
+    hair += gene[7][0] + gene[7][1];
+    hair += gene[8][0] + gene[8][1];
+    return hair;
   }
 } 
