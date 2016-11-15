@@ -65,9 +65,9 @@ class City {
     noStroke();
   }
   
-  void addPerson(Person p){
-    if (pop < maxP && (p.gender() == 0 && deadM[0] != 0 
-    || p.gender() == 1 && deadW[0] != 0)){
+  boolean addPerson(Person p){
+    if (pop < maxP && (p.gender() == 0 && deadM[0] > 0 
+    || p.gender() == 1 && deadW[0] > 0)){
       pop++;
       eyeCol[p.getEyeColor()]++;
       skinCol[p.getSkinColor()]++;
@@ -85,7 +85,9 @@ class City {
         woman[deadW[deadW[0]]].Copy(p);
         deadW[0]--;
       }
+      return true;
     }
+    return false;
   }
   
   void update(){
@@ -93,20 +95,24 @@ class City {
       if (man[i].isAlive()){
         if (!man[i].getOlder(1 - (abs(y - equator) / equator))){
           kill(i, 0);
+        } else if (man[i].age() == 18.0){
+          boy--;
         }
       }
       if (woman[i].isAlive()){
         if (!woman[i].getOlder(1 - (abs(y - equator) / equator))){
           kill(i, 1);
+        } else if (woman[i].age() == 18.0){
+          girl--;
         }
       }
     }
     
     int childs = int((pop / 1000.0) * birthRate);
-    while (pop < maxP && childs > 0 && male != 0 && female != 0){
+    while (pop < maxP && childs > 0 && male != 0 && female != 0 && male - boy > 0 && female - girl > 0){
       int m = int(random(maxP/2));
       int w = int(random(maxP/2));
-      if (man[m].isAlive() && woman[w].isAlive()) {
+      if (man[m].isAlive() && woman[w].isAlive() && man[m].isMature() && woman[w].isMature() && abs(man[m].age() - woman[w].age()) <= 20) {
         addPerson(man[m].sex(woman[w]));
         childs--;
       }
@@ -120,6 +126,7 @@ class City {
       bloodType[man[cId].getBloodType()]--;
       skinCol[man[cId].getSkinColor()]--;
       male--;
+      if (man[cId].age < 18)boy--;
       deadM[++deadM[0]] = cId;
       man[cId].kill();
     } else {
@@ -128,6 +135,7 @@ class City {
       bloodType[woman[cId].getBloodType()]--;
       skinCol[woman[cId].getSkinColor()]--;
       female--;
+      if (woman[cId].age < 18)girl--;
       deadW[++deadW[0]] = cId;
       woman[cId].kill();
     }
@@ -138,16 +146,14 @@ class City {
      int r_guy = int(random(maxP/2));
      int gn    = int(random(2));
      if (!ct.overPop(gn)){
-       if (gn == 0 && man[r_guy].isAlive()){
-         ct.addPerson(man[r_guy]);
+       if (gn == 0 && man[r_guy].isAlive() && ct.addPerson(man[r_guy])){
          kill(r_guy, gn);
          stroke(255, 50);
          line(x,y,ct.getX(),ct.getY());
          noStroke();
          return true;
        }
-       else if (gn == 1 && woman[r_guy].isAlive()){
-         ct.addPerson(man[r_guy]);
+       else if (gn == 1 && woman[r_guy].isAlive() && ct.addPerson(woman[r_guy])){
          kill(r_guy, gn);
          stroke(255, 50);
          line(x,y,ct.getX(),ct.getY());

@@ -141,10 +141,10 @@ void setup(){
   text("CITIES", 125, 545);
   text("POPULATION", 125, 560);
   text("RELOCATIONS", 125, 575);
-  text("DEATHS", 125, 630);
+  //text("DEATHS", 125, 630);
   text("BIRTHS", 125, 645);
   text("BIRTH RATE", 125, 660);
-  text("DEATH RATE", 125, 675);
+  //text("DEATH RATE", 125, 675);
   textAlign(CENTER);
   
   for (i = 0; i < numCities; i++){
@@ -236,10 +236,10 @@ void showData(){
   text(history[currentYear][0], 280, 560);
   text(history[currentYear][25], 280, 575);
   
-  text(currentYear, 280, 630);
-  text(history[currentYear][0] - history[max(currentYear - 1, 0)][0], 280, 645);
+  //text(currentYear, 280, 630);
+  text(max(history[currentYear][0] - history[max(currentYear - 1, 0)][0], 0), 280, 645);
   text(28.6, 280, 660);
-  text(currentYear, 280, 675);
+  //text(currentYear, 280, 675);
 }
 
 void saveHistory(){

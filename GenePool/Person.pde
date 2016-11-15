@@ -3,7 +3,6 @@ class Person {
   float age;
   int gender;
   float maxAge;
-  float deathProbability;
   boolean cancer;
   boolean alive;
   public int[][] gene = new int[9][2];
@@ -17,7 +16,6 @@ class Person {
     age    = 0.0;
     alive  = true;
     gender = gnd;
-    deathProbability = 0.0;
     maxAge = random(50, 90);
     cancer = false;
   }
@@ -69,11 +67,10 @@ class Person {
   
   boolean getOlder(float distance){
     age += 1;
-    deathProbability+= 0.007;
-    float scolor = (6 - getSkinColor()) / 7.0;
-    float rnd = random(distance * scolor);
-    float rdeath = random(101);
-    if (rdeath <= deathProbability){
+    float scolor = (6 - getSkinColor()) / 12.0;
+    float rnd = 100 * (distance / 10.0 * scolor);
+    float rdeath = random(100);
+    if (age >= maxAge || rdeath <= rnd){
       alive = false; 
       return false;
     }
