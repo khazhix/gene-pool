@@ -94,32 +94,29 @@ class City {
     for (int i = 0; i < maxP / 2; i++){
       if (man[i].isAlive()){
         if (!man[i].getOlder(1 - (abs(y - equator) / equator))){
-          if (man[i].age() < 18)boy--;
           kill(i, 0);
-        } else if (man[i].age() == 18){
+        } else if (man[i].age() == 18.0){
           boy--;
         }
       }
       if (woman[i].isAlive()){
         if (!woman[i].getOlder(1 - (abs(y - equator) / equator))){
-          if (woman[i].age() < 18)girl--;
           kill(i, 1);
-        } else if (woman[i].age() == 18){
+        } else if (woman[i].age() == 18.0){
           girl--;
         }
       }
     }
     
     int childs = int((pop / 1000.0) * birthRate);
-    while (pop < maxP && childs > 0 && male != 0 && female != 0){
+    while (pop < maxP && childs > 0 && male != 0 && female != 0 && male - boy > 0 && female - girl > 0){
       int m = int(random(maxP/2));
       int w = int(random(maxP/2));
-      if (man[m].isAlive() && woman[w].isAlive() && abs(man[m].age() - woman[w].age()) <= 20) {
+      if (man[m].isAlive() && woman[w].isAlive() && man[m].isMature() && woman[w].isMature() && abs(man[m].age() - woman[w].age()) <= 20) {
         addPerson(man[m].sex(woman[w]));
         childs--;
       }
     }
-   // println(boy + " " + girl  + " : " + male + " " + female);
   }
   
   void kill(int cId, int gnd){
