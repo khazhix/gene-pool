@@ -95,7 +95,11 @@ void setup(){
       city[cityId].addPerson(p);
       i++;
     }
-  }
+  } 
+  output = createWriter("history/"+ year + ".txt"); 
+  saveHistory();
+  output.flush();
+  output.close();
   String[] strings = loadStrings("history/" + currentYear + ".txt");
     String[] data;
     for (i = 0; i < numCities; i++){
@@ -179,33 +183,38 @@ void draw(){
 
 void keyPressed(){
   if (key == CODED && keyCode == RIGHT){
-    year++;
-    currentYear = year;
-    population = 0;
-    for (int i = 0; i < numCities; i++){
-      city[i].update();
-      population += city[i].getPop();
-      history[year][0] += city[i].getPop();
-      history[year][1] += city[i].getMale();
-      history[year][2] += city[i].getFemale();
-      for (int j = 0; j < 7; j++){
-        if (j < 3)history[year][j + 3] += city[i].getEye(j);
-                  history[year][j + 6] += city[i].getSkin(j);
-        if (j < 5)history[year][j + 13] += city[i].getHair(j);
-        if (j < 4)history[year][j + 18] += city[i].getBlood(j);
+    if (currentYear < year){
+      currentYear++;
+    }
+    else {
+      year++;
+      currentYear = year;
+      population = 0;
+      for (int i = 0; i < numCities; i++){
+        city[i].update();
+        population += city[i].getPop();
+        history[year][0] += city[i].getPop();
+        history[year][1] += city[i].getMale();
+        history[year][2] += city[i].getFemale();
+        for (int j = 0; j < 7; j++){
+          if (j < 3)history[year][j + 3] += city[i].getEye(j);
+                    history[year][j + 6] += city[i].getSkin(j);
+          if (j < 5)history[year][j + 13] += city[i].getHair(j);
+          if (j < 4)history[year][j + 18] += city[i].getBlood(j);
+        }
       }
+      int rel = int(population * 0.01);
+      while (rel > 0){
+        int rct = int(random(numCities));
+        int rct2 = int(random(numCities));
+        if (city[rct].relocate(city[rct2]))history[year][25]++;
+        rel--;
+      }
+      output = createWriter("history/"+ year + ".txt"); 
+      saveHistory();
+      output.flush();
+      output.close();
     }
-    int rel = int(population * 0.01);
-    while (rel > 0){
-      int rct = int(random(numCities));
-      int rct2 = int(random(numCities));
-      if (city[rct].relocate(city[rct2]))history[year][25]++;
-      rel--;
-    }
-    output = createWriter("history/"+ year + ".txt"); 
-    saveHistory();
-    output.flush();
-    output.close();
   } else if (key == CODED && keyCode == LEFT){
     currentYear--;
     currentYear = max(currentYear, 0);
