@@ -28,10 +28,12 @@ int imgH = 484;//968
 float equator = imgH / 1.65;
 int maxPopulation = 20000;
 int population;
-int year = 0;
+int year = 0, currentYear = 0;
 int numCities = 20;
 int[][] genes = new int[10][2];
 int[][] history = new int[500][30];
+int[][] cityYear = new int[100][30];
+PrintWriter output;
 
 City[] city = new City[numCities];
 int[] rands = new int[(numCities * (numCities + 1)) / 2];
@@ -62,7 +64,6 @@ void setup(){
   // creating population
   int gender;
   population = int(random(1000.0, maxPopulation));
-  history[0][0] = population;
   for (i = 0; i < population; ){
     randomTrait();
     gender = int(random(0, 2));
@@ -95,6 +96,14 @@ void setup(){
       i++;
     }
   }
+  String[] strings = loadStrings("history/" + currentYear + ".txt");
+    String[] data;
+    for (i = 0; i < numCities; i++){
+      data = strings[i].split(" ");
+      for (int j = 0; j < 21; j++){
+        cityYear[i][j] = int(data[j + 1]);
+      }
+    }
   strokeWeight(2);
   stroke(255);
   line(20, 504, 25, 499);
@@ -132,6 +141,7 @@ void setup(){
   text("BIRTHS", 125, 645);
   text("BIRTH RATE", 125, 660);
   text("DEATH RATE", 125, 675);
+  textAlign(CENTER);
   
   for (i = 0; i < numCities; i++){
     history[year][0] += city[i].getPop();
@@ -151,10 +161,11 @@ void draw(){
   noStroke();
   fill(0, 100);
   rect(imgW, 0, width-imgW, height);
-
+  rect(245, 520, 75, 60);
+  rect(245, 620, 75, 60);
   for (int i = 0; i < numCities; i++){
     if (city[i].inRange(mouseX, mouseY)){
-      city[i].displayInfo(history[year]);
+      city[i].displayInfo(history[currentYear], cityYear[i]);
     }
     city[i].display();
   }
@@ -163,28 +174,74 @@ void draw(){
   for (int i = 0; i < (imgW / 10); i++){
     point((i * 10) + year % 10, equator+1);
   }
+  showData();
 }
 
 void keyPressed(){
-  year++;
-  population = 0;
-  for (int i = 0; i < numCities; i++){
-    city[i].update();
-    population += city[i].getPop();
-    history[year][0] += city[i].getPop();
-    history[year][1] += city[i].getMale();
-    history[year][2] += city[i].getFemale();
-    for (int j = 0; j < 7; j++){
-      if (j < 3)history[year][j + 3] += city[i].getEye(j);
-                history[year][j + 6] += city[i].getSkin(j);
-      if (j < 5)history[year][j + 13] += city[i].getHair(j);
-      if (j < 4)history[year][j + 18] += city[i].getBlood(j);
+  if (key == CODED && keyCode == RIGHT){
+    year++;
+    currentYear = year;
+    population = 0;
+    for (int i = 0; i < numCities; i++){
+      city[i].update();
+      population += city[i].getPop();
+      history[year][0] += city[i].getPop();
+      history[year][1] += city[i].getMale();
+      history[year][2] += city[i].getFemale();
+      for (int j = 0; j < 7; j++){
+        if (j < 3)history[year][j + 3] += city[i].getEye(j);
+                  history[year][j + 6] += city[i].getSkin(j);
+        if (j < 5)history[year][j + 13] += city[i].getHair(j);
+        if (j < 4)history[year][j + 18] += city[i].getBlood(j);
+      }
     }
+    int rel = int(population * 0.01);
+    while (rel > 0){
+      int rct = int(random(numCities));
+      int rct2 = int(random(numCities));
+      if (city[rct].relocate(city[rct2]))history[year][25]++;
+      rel--;
+    }
+    output = createWriter("history/"+ year + ".txt"); 
+    saveHistory();
+    output.flush();
+    output.close();
+  } else if (key == CODED && keyCode == LEFT){
+    currentYear--;
+    currentYear = max(currentYear, 0);
   }
-  int rel = int(population * 0.001);
-  while (rel > 0){
-    int rct = int(random(numCities));
-    int rct2 = int(random(numCities));
-    if (city[rct].relocate(city[rct2]))rel--;
+  
+  String[] strings = loadStrings("history/" + currentYear + ".txt");
+    String[] data;
+    for (int i = 0; i < numCities; i++){
+      data = strings[i].split(" ");
+      for (int j = 0; j < 21; j++){
+        cityYear[i][j] = int(data[j + 1]);
+      }
+    }
+}
+
+void showData(){
+  text(currentYear, 280, 530);
+  text(numCities, 280, 545);
+  text(history[currentYear][0], 280, 560);
+  text(history[currentYear][25], 280, 575);
+  
+  text(currentYear, 280, 630);
+  text(history[currentYear][0] - history[max(currentYear - 1, 0)][0], 280, 645);
+  text(28.6, 280, 660);
+  text(currentYear, 280, 675);
+}
+
+void saveHistory(){
+  for (int j = 0; j < numCities; j++){
+    output.print(j + " ");
+    output.print(city[j].getMale() + " ");
+    output.print(city[j].getFemale() + " ");
+    for (int i = 0; i < 3; i++)output.print(city[j].getEye(i) + " ");
+    for (int i = 0; i < 7; i++)output.print(city[j].getSkin(i) + " ");
+    for (int i = 0; i < 5; i++)output.print(city[j].getHair(i) + " ");
+    for (int i = 0; i < 4; i++)output.print(city[j].getBlood(i) + " ");
+    output.println();
   }
 }

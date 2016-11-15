@@ -91,12 +91,12 @@ class City {
   void update(){
     for (int i = 0; i < maxP / 2; i++){
       if (man[i].isAlive()){
-        if (!man[i].getOlder()){
+        if (!man[i].getOlder(1 - (abs(y - equator) / equator))){
           kill(i, 0);
         }
       }
       if (woman[i].isAlive()){
-        if (!woman[i].getOlder()){
+        if (!woman[i].getOlder(1 - (abs(y - equator) / equator))){
           kill(i, 1);
         }
       }
@@ -154,8 +154,6 @@ class City {
          noStroke();
          return true;
        }
-     } else {
-       return true;
      }
      return false;
   }
@@ -235,7 +233,7 @@ class City {
     }
   }
   
-  void displayInfo(int[] history){
+  void displayInfo(int[] history, int[] cityData){
     stroke(255);
     strokeWeight(2);
     line(880, 30, 885,25);
@@ -272,51 +270,51 @@ class City {
     PImage icon;
     textSize(14);
     icon = loadImage("eye.png");
-    image(icon, 1012,150, 30, 30);
+    image(icon, 1017,150, 20, 20);
     for (int i = 0; i < 3; i++){
       fill(getEcol(i));
       ellipse(1027, 190 + (i * 20), 10, 10);
       fill(255);
-      text(eyeCol[i], 950, 193 + (i * 20));
+      text(cityData[i + 2], 950, 193 + (i * 20));
       text(history[i + 3], 1104, 193 + (i * 20));
     }
     
     strokeWeight(1);
     stroke(255,100);
-    line(905, 250, 1160, 250);
+    line(905, 245, 1160, 245);
     
     icon = loadImage("skin.png");
-    image(icon, 1012,250, 30, 30);
+    image(icon, 1017,250, 20, 20);
     for (int i = 0; i < 7; i++){
       fill(getScol(i));
       ellipse(1027, 290 + (i * 20), 10, 10);
       fill(255);
-      text(skinCol[i], 950, 293 + (i * 20));
+      text(cityData[i + 5], 950, 293 + (i * 20));
       text(history[i + 6], 1104, 293 + (i * 20));
     }
     
-    line(905, 430, 1160, 430);
+    line(905, 425, 1160, 425);
     icon = loadImage("hair.png");
-    image(icon, 1012,430, 30, 30);
+    image(icon, 1017,430, 20, 20);
     for (int i = 0; i < 5; i++){
       fill(getHcol(i));
       ellipse(1027, 470 + (i * 20), 10, 10);
       fill(255);
-      text(hairCol[i], 950, 473 + (i * 20));
+      text(cityData[i + 12], 950, 473 + (i * 20));
       text(history[i + 13], 1104, 473 + (i * 20));
     }
     
-    line(905, 570, 1160, 570);
+    line(905, 565, 1160, 565);
     icon = loadImage("blood.png");
-    image(icon, 1012, 570, 30, 30);
+    image(icon, 1017, 570, 20, 20);
     text("A",  1027, 620);
     text("A",  1027, 640);
     text("AB", 1027, 660);
     text("O",  1027, 680);
-    text(bloodType[0], 950, 620);
-    text(bloodType[1], 950, 640);
-    text(bloodType[2], 950, 660);
-    text(bloodType[3], 950, 680);
+    text(cityData[17], 950, 620);
+    text(cityData[18], 950, 640);
+    text(cityData[19], 950, 660);
+    text(cityData[20], 950, 680);
     text(history[18], 1104, 620);
     text(history[19], 1104, 640);
     text(history[20], 1104, 660);

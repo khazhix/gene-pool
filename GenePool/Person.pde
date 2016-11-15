@@ -3,6 +3,8 @@ class Person {
   float age;
   int gender;
   float maxAge;
+  float deathProbability;
+  boolean cancer;
   boolean alive;
   public int[][] gene = new int[9][2];
   int[][] child = new int[9][2];
@@ -15,7 +17,9 @@ class Person {
     age    = 0.0;
     alive  = true;
     gender = gnd;
+    deathProbability = 0.0;
     maxAge = random(50, 90);
+    cancer = false;
   }
   
   void Copy(Person p){
@@ -63,9 +67,13 @@ class Person {
     return false;
   }
   
-  boolean getOlder(){
+  boolean getOlder(float distance){
     age += 1;
-    if (age >= maxAge){
+    deathProbability+= 0.007;
+    float scolor = (6 - getSkinColor()) / 7.0;
+    float rnd = random(distance * scolor);
+    float rdeath = random(101);
+    if (rdeath <= deathProbability){
       alive = false; 
       return false;
     }
