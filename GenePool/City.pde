@@ -239,6 +239,16 @@ class City {
     }
   }
   
+  color getBcol(int id){
+    switch (id){
+      case 0: return color(229,115,115);
+      case 1: return color(244,67,54);
+      case 2: return color(183,28,28);
+      case 3: return color(213,0,0);
+      default: return color(0,0,0);
+    }
+  }
+  
   void displayInfo(int[][] history, int[][] cityData, int year, int traits){
     stroke(255);
     strokeWeight(2);
@@ -374,17 +384,37 @@ class City {
       for (int j = 0; j < 7; j++){
         if (traits == 1 && j < 3){
           stroke(getEcol(j), 100);
+          line(455+365.0*((i-1.0)/year),719-185.0*(cityData[i-1][j + 3]*1.0/cityData[i-1][0]), 455+365.0*((i*1.0)/year),719-185.0*(cityData[i][j + 3]*1.0/cityData[i][0]));
+        }
+        if (traits == 2){
+          stroke(getScol(j), 100);
+          line(455+365.0*((i-1.0)/year),719-185.0*(cityData[i-1][j + 6]*1.0/cityData[i-1][0]), 455+365.0*((i*1.0)/year),719-185.0*(cityData[i][j + 6]*1.0/cityData[i][0]));
+        }
+        if (traits == 3 && j < 5){
+          stroke(getHcol(j), 100);
+          line(455+365.0*((i-1.0)/year),719-185.0*(cityData[i-1][j + 13]*1.0/cityData[i-1][0]), 455+365.0*((i*1.0)/year),719-185.0*(cityData[i][j + 13]*1.0/cityData[i][0]));
+        }
+        if (traits == 4 && j < 4){
+          stroke(getBcol(j), 100);
+          line(455+365.0*((i-1.0)/year),719-185.0*(cityData[i-1][j + 18]*1.0/cityData[i-1][0]), 455+365.0*((i*1.0)/year),719-185.0*(cityData[i][j + 18]*1.0/cityData[i][0]));
         }
       }
-      stroke(getEcol(0),100);
-      line(455+365.0*((i-1.0)/year),719-185.0*(cityData[i-1][3]*1.0/cityData[i-1][0]), 455+365.0*((i*1.0)/year),719-185.0*(cityData[i][3]*1.0/cityData[i][0]));
-      stroke(getEcol(1),100);
-      line(455+365.0*((i-1.0)/year),719-185.0*(cityData[i-1][4]*1.0/cityData[i-1][0]), 455+365.0*((i*1.0)/year),719-185.0*(cityData[i][4]*1.0/cityData[i][0]));
-      stroke(getEcol(2),100);
-      line(455+365.0*((i-1.0)/year),719-185.0*(cityData[i-1][5]*1.0/cityData[i-1][0]), 455+365.0*((i*1.0)/year),719-185.0*(cityData[i][5]*1.0/cityData[i][0]));
     }
     textSize(10);
-    text(cityData[year][3]*1.0/cityData[year][0], 850, 719-185.0*(cityData[year][3]*1.0/cityData[year][0]));
+      for (int j = 0; j < 7; j++){
+        if (traits == 1 && j < 3){
+          text((cityData[year][j + 3]*1.0/cityData[year][0]), 850, 719-185.0*(cityData[year][j + 3]*1.0/cityData[year][0]));
+        }
+        if (traits == 2){
+          text((cityData[year][j + 6]*1.0/cityData[year][0]), 850, 719-185.0*(cityData[year][j + 6]*1.0/cityData[year][0]));
+        }
+        if (traits == 3 && j < 5){
+          text((cityData[year][j + 13]*1.0/cityData[year][0]), 850,719-185.0*(cityData[year][j + 13]*1.0/cityData[year][0]));
+        }
+        if (traits == 4 && j < 4){
+          text((cityData[year][j + 18]*1.0/cityData[year][0]), 850,719-185.0*(cityData[year][j + 18]*1.0/cityData[year][0]));
+        }
+      }
     noStroke();
     textSize(15);
   }

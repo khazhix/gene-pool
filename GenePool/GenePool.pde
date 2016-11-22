@@ -99,11 +99,13 @@ void mousePressed(){
       startGame();
     }
   }
-  if (mouseY <= 30){}
+  if (mouseY <= 30){
     if (mouseX >= 78 && mouseX <= 113)traits = 1;
     if (mouseX > 113 && mouseX <= 148)traits = 2;
     if (mouseX > 148 && mouseX <= 183)traits = 3;
     if (mouseX > 183 && mouseX <= 218)traits = 4;
+   // if (mouseX < 30)
+  }
 }
 
 void choose(){
@@ -295,7 +297,7 @@ void startGame(){
   text("CITIES",      125, 575);
   text("POPULATION",  125, 590);
   text("RELOCATIONS", 125, 605);
-  text("BIRTHS",      125, 675);
+  text("INCREASE", 125, 675);
   text("BIRTH RATE",  125, 690);
   textAlign(CENTER);
   for (i = 0; i < numCities; i++){
