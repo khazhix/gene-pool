@@ -208,9 +208,9 @@ class City {
   
   color getEcol(int id){
     switch (id){
-      case 2: return color(52,152,219);
-      case 0: return color(211,84,0);
+      case 0: return color(97,52,31);
       case 1: return color(46,204,113);
+      case 2: return color(52,152,219);   
       default: return color(0,0,0);
     }
   }
