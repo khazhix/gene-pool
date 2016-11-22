@@ -208,9 +208,9 @@ class City {
   
   color getEcol(int id){
     switch (id){
-      case 0: return color(97,52,31);
+      case 2: return color(52,152,219);
+      case 0: return color(211,84,0);
       case 1: return color(46,204,113);
-      case 2: return color(52,152,219);   
       default: return color(0,0,0);
     }
   }
@@ -239,7 +239,7 @@ class City {
     }
   }
   
-  void displayInfo(int[] history, int[] cityData){
+  void displayInfo(int[][] history, int[][] cityData, int year, int traits){
     stroke(255);
     strokeWeight(2);
     line(880, 60,  885, 55);
@@ -273,59 +273,58 @@ class City {
     fill(255);
     textAlign(CENTER);
     text(cityName, 1027, 110);
-    
-    PImage icon;
+    tint(255);
     textSize(14);
-    icon = loadImage("eye.png");
+    icon = loadImage("visibility_white.png");
     image(icon, 1017,180, 20, 20);
     for (int i = 0; i < 3; i++){
       fill(getEcol(i));
       ellipse(1027, 220 + (i * 20), 10, 10);
       fill(255);
-      text(cityData[i + 2], 950, 223 + (i * 20));
-      text(history[i + 3], 1104, 223 + (i * 20));
+      text(cityData[year][i + 3], 950, 223 + (i * 20));
+      text(history[year][i + 3], 1104, 223 + (i * 20));
     }
     
     strokeWeight(1);
     stroke(255,100);
     line(905, 275, 1160, 275);
     
-    icon = loadImage("skin.png");
+    icon = loadImage("perm_identity_white.png");
     image(icon, 1017,280, 20, 20);
     for (int i = 0; i < 7; i++){
       fill(getScol(i));
       ellipse(1027, 320 + (i * 20), 10, 10);
       fill(255);
-      text(cityData[i + 5], 950, 323 + (i * 20));
-      text(history[i + 6], 1104, 323 + (i * 20));
+      text(cityData[year][i + 6], 950, 323 + (i * 20));
+      text(history[year][i + 6], 1104, 323 + (i * 20));
     }
     
     line(905, 455, 1160, 455);
-    icon = loadImage("hair.png");
+    icon = loadImage("face_white.png");
     image(icon, 1017,460, 20, 20);
     for (int i = 0; i < 5; i++){
       fill(getHcol(i));
       ellipse(1027, 500 + (i * 20), 10, 10);
       fill(255);
-      text(cityData[i + 12], 950, 503 + (i * 20));
-      text(history[i + 13], 1104, 503 + (i * 20));
+      text(cityData[year][i + 13], 950, 503 + (i * 20));
+      text(history[year][i + 13], 1104, 503 + (i * 20));
     }
     
     line(905, 595, 1160, 595);
-    icon = loadImage("blood.png");
+    icon = loadImage("invert_colors_white.png");
     image(icon, 1017, 600, 20, 20);
     text("A",  1027, 650);
     text("B",  1027, 670);
     text("AB", 1027, 690);
     text("O",  1027, 710);
-    text(cityData[17], 950,  650);
-    text(cityData[18], 950,  670);
-    text(cityData[19], 950,  690);
-    text(cityData[20], 950,  710);
-    text(history[18],  1104, 650);
-    text(history[19],  1104, 670);
-    text(history[20],  1104, 690);
-    text(history[21],  1104, 710);
+    text(cityData[year][18], 950,  650);
+    text(cityData[year][19], 950,  670);
+    text(cityData[year][20], 950,  690);
+    text(cityData[year][21], 950,  710);
+    text(history[year][18],  1104, 650);
+    text(history[year][19],  1104, 670);
+    text(history[year][20],  1104, 690);
+    text(history[year][21],  1104, 710);
     
     stroke(255);
     strokeWeight(1);
@@ -341,6 +340,52 @@ class City {
     line(x - 20, y, x - 15, y-5);
     line(x + 20, y, x + 15, y+5);
     line(x + 20, y, x + 15, y-5);
+    
+    
+    strokeWeight(2);
+    
+    line(450, 534, 455, 529);
+    line(450, 534, 450, 604);
+    line(450, 604, 455, 609);
+    line(455, 609, 455, 644);
+    line(455, 644, 450, 649);
+    line(450, 649, 450, 719);
+    line(450, 719, 455, 724);
+    
+    line(820, 529, 825, 534);
+    line(825, 534, 825, 604);
+    line(825, 604, 820, 609);
+    line(820, 609, 820, 644);
+    line(820, 644, 825, 649);
+    line(825, 649, 825, 719);
+    line(825, 719, 820, 724);
+    
+    line(540, 534, 545, 529);
+    line(545, 529, 615, 529);
+    line(615, 529, 620, 534);
+    line(620, 534, 655, 534);
+    line(655, 534, 660, 529);
+    line(660, 529, 730, 529);
+    line(730, 529, 735, 534);
+    
+    stroke(255,100);
+    line(455,626, 820, 626);
+    for (int i = 1; i <= year; i++){
+      for (int j = 0; j < 7; j++){
+        if (traits == 1 && j < 3){
+          stroke(getEcol(j), 100);
+        }
+      }
+      stroke(getEcol(0),100);
+      line(455+365.0*((i-1.0)/year),719-185.0*(cityData[i-1][3]*1.0/cityData[i-1][0]), 455+365.0*((i*1.0)/year),719-185.0*(cityData[i][3]*1.0/cityData[i][0]));
+      stroke(getEcol(1),100);
+      line(455+365.0*((i-1.0)/year),719-185.0*(cityData[i-1][4]*1.0/cityData[i-1][0]), 455+365.0*((i*1.0)/year),719-185.0*(cityData[i][4]*1.0/cityData[i][0]));
+      stroke(getEcol(2),100);
+      line(455+365.0*((i-1.0)/year),719-185.0*(cityData[i-1][5]*1.0/cityData[i-1][0]), 455+365.0*((i*1.0)/year),719-185.0*(cityData[i][5]*1.0/cityData[i][0]));
+    }
+    textSize(10);
+    text(cityData[year][3]*1.0/cityData[year][0], 850, 719-185.0*(cityData[year][3]*1.0/cityData[year][0]));
     noStroke();
+    textSize(15);
   }
 }

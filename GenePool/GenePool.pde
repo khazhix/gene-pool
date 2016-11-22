@@ -1,5 +1,5 @@
 PFont font;
-PImage img;
+PImage img, icon;
 PrintWriter output;
 
 int imgW = 842;//1684
@@ -10,7 +10,8 @@ int population = 20000;
 int numCities = 20;
 float rRate;
 float bRate;
-String relocRate = "0.03";
+int traits = 1;
+String relocRate = "00.03";
 String birthRate = "028.8";
 
 int curArea = 1;
@@ -19,6 +20,7 @@ int year = 0, currentYear = 0;
 int[][] genes = new int[10][2];
 int[][] history = new int[500][30];
 int[][] cityYear = new int[100][30];
+int[][][] cityHistory = new int[101][301][30];
 boolean flag;
 
 City[] city = new City[150];
@@ -46,12 +48,13 @@ void draw(){
     noStroke();
     fill(0, 100);
     rect(imgW, 30, width-imgW, height);
-    rect(245, 540, 95, 70);
-    rect(245, 650, 95, 60);
+    rect(245, 540, 95,  70);
+    rect(245, 650, 95,  60);
+    rect(448, 527, 855, 724);
     
     for (int i = 0; i < numCities; i++){
       if (city[i].inRange(mouseX, mouseY)){
-        city[i].displayInfo(history[currentYear], cityYear[i]);
+        city[i].displayInfo(history, cityHistory[i], currentYear, traits);
       }
       city[i].display();
     }
@@ -96,6 +99,11 @@ void mousePressed(){
       startGame();
     }
   }
+  if (mouseY <= 30){}
+    if (mouseX >= 78 && mouseX <= 113)traits = 1;
+    if (mouseX > 113 && mouseX <= 148)traits = 2;
+    if (mouseX > 148 && mouseX <= 183)traits = 3;
+    if (mouseX > 183 && mouseX <= 218)traits = 4;
 }
 
 void choose(){
@@ -128,8 +136,8 @@ void choose(){
   
   text(numCities,  imgW + 162, 112);
   text(population, imgW + 162, 212);
-  text(birthRate,  imgW + 162, 312);
-  text(relocRate,  imgW + 162, 412);
+  text(birthRate.substring(1, birthRate.length()),  imgW + 162, 312);
+  text(relocRate.substring(1, relocRate.length()),  imgW + 162, 412);
   text("START",    imgW + 162, 512);
 }
 
@@ -178,18 +186,20 @@ void keyPressed(){
       currentYear = year;
       for (int i = 0; i < numCities; i++){
         city[i].update();
-        history[year][0] += city[i].getPop();
-        history[year][1] += city[i].getMale();
-        history[year][2] += city[i].getFemale();
+        cityHistory[i][year][0] = city[i].getPop();
+        cityHistory[i][year][1] = city[i].getMale();
+        cityHistory[i][year][2] = city[i].getFemale();
         for (int j = 0; j < 7; j++){
-          if (j < 3)history[year][j + 3] += city[i].getEye(j);
-                    history[year][j + 6] += city[i].getSkin(j);
-          if (j < 5)history[year][j + 13] += city[i].getHair(j);
-          if (j < 4)history[year][j + 18] += city[i].getBlood(j);
+          if (j < 3)cityHistory[i][year][j + 3 ] = city[i].getEye(j);
+                    cityHistory[i][year][j + 6 ] = city[i].getSkin(j);
+          if (j < 5)cityHistory[i][year][j + 13] = city[i].getHair(j);
+          if (j < 4)cityHistory[i][year][j + 18] = city[i].getBlood(j);
+        }
+        for (int j = 0; j < 25; j++){
+          history[year][j] += cityHistory[i][year][j];
         }
       }
       int rel = int(history[year][0] * rRate);
-      println(rRate + " : " + history[year][0] + " => " + rel);
       while (rel > 0){
         int rct = int(random(numCities));
         int rct2 = int(random(numCities));
@@ -289,14 +299,17 @@ void startGame(){
   text("BIRTH RATE",  125, 690);
   textAlign(CENTER);
   for (i = 0; i < numCities; i++){
-    history[year][0] += city[i].getPop();
-    history[year][1] += city[i].getMale();
-    history[year][2] += city[i].getFemale();
+    cityHistory[i][year][0] = city[i].getPop();
+    cityHistory[i][year][1] = city[i].getMale();
+    cityHistory[i][year][2] = city[i].getFemale();
     for (int j = 0; j < 7; j++){
-      if (j < 3)history[year][j + 3] += city[i].getEye(j);
-                history[year][j + 6] += city[i].getSkin(j);
-      if (j < 5)history[year][j + 13] += city[i].getHair(j);
-      if (j < 4)history[year][j + 18] += city[i].getBlood(j);
+      if (j < 3)cityHistory[i][year][j + 3 ] = city[i].getEye(j);
+                cityHistory[i][year][j + 6 ] = city[i].getSkin(j);
+      if (j < 5)cityHistory[i][year][j + 13] = city[i].getHair(j);
+      if (j < 4)cityHistory[i][year][j + 18] = city[i].getBlood(j);
+    }
+    for (int j = 0; j < 25; j++){
+      history[year][j] += cityHistory[i][year][j];
     }
   }
 }
@@ -380,6 +393,18 @@ void changeSkin(int cityId, int rmskin){
 }
 
 void topbar(){
+  noStroke();
+  fill(52,152,219);
+  rect(78, 0, 140,30);
+  fill(231,76,60);
+  rect(0, 0, 78,30);
+  fill(255);
+  switch (traits){
+    case 1: rect(78,  0, 35, 4);  break;
+    case 2: rect(113, 0, 35, 4);  break;
+    case 3: rect(148, 0, 35, 4);  break;
+    case 4: rect(183, 0, 35, 4);  break;
+  }
   noFill();
   stroke(255, 250);
   arc(25,15,12,12, 0, TWO_PI);
@@ -388,4 +413,15 @@ void topbar(){
   line(60, 18, 60, 24);
   line(57, 15, 51, 15);
   line(63, 15, 69, 15);
+  line(78,0,78,30);
+  
+  tint(255);
+  icon = loadImage("visibility_white.png");
+  image(icon, 85, 5, 20, 20);
+  icon = loadImage("face_white.png");
+  image(icon, 120, 5, 20, 20);
+  icon = loadImage("perm_identity_white.png");
+  image(icon, 155, 5, 20, 20);
+  icon = loadImage("invert_colors_white.png");
+  image(icon, 190, 5, 20, 20);
 }
