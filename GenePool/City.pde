@@ -39,8 +39,8 @@ class City {
     cityName  = ctName; 
     int[][] gen = new int[10][2];
     for (int i = 0; i < maxP / 2; i++){
-      man[i]   = new Person(gen, 0);
-      woman[i] = new Person(gen, 1);
+      man[i]   = new Person(gen, 0, 0.0);
+      woman[i] = new Person(gen, 1, 0.0);
       man[i].kill();
       woman[i].kill();
       deadM[i + 1] = i;
@@ -76,11 +76,11 @@ class City {
       
       if (p.gender() == 0){
         male++;
-        boy++;
+        if (p.age() < 18)boy++;
         man[deadM[deadM[0]]].Copy(p);
         deadM[0]--;
       } else {
-        girl++;
+        if (p.age() < 18)girl++;
         female++;
         woman[deadW[deadW[0]]].Copy(p);
         deadW[0]--;
@@ -242,95 +242,97 @@ class City {
   void displayInfo(int[] history, int[] cityData){
     stroke(255);
     strokeWeight(2);
-    line(880, 30, 885,25);
-    line(880, 30, 880,100);
-    line(880, 100, 885,105);
-    line(885, 105, 885,140);
-    line(885, 140, 880,145);
-    line(880, 145, 880,689);
-    line(880, 689, 885,694);
+    line(880, 60,  885, 55);
+    line(880, 60,  880, 130);
+    line(880, 130, 885, 135);
+    line(885, 135, 885, 170);
+    line(885, 170, 880, 175);
+    line(880, 175, 880, 719);
+    line(880, 719, 885, 724);
     
-    line(1180, 25, 1185,30);
-    line(1185, 30, 1185,100);
-    line(1185, 100, 1180,105);
-    line(1180, 105, 1180,140);
-    line(1180, 140, 1185,145);
-    line(1185, 145, 1185,689);
-    line(1185, 689, 1180,694);
+    line(1180, 55,  1185, 60);
+    line(1185, 60,  1185, 130);
+    line(1185, 130, 1180, 135);
+    line(1180, 135, 1180, 170);
+    line(1180, 170, 1185, 175);
+    line(1185, 175, 1185, 719);
+    line(1185, 719, 1180, 724);
     
-    line(935, 30, 940, 25);
-    line(940, 25, 1010, 25);
-    line(1010, 25, 1015, 30);
-    line(1015, 30, 1040, 30);
-    line(1040, 30, 1045, 25);
-    line(1045, 25, 1115, 25);
-    line(1115, 25, 1120, 30);
+    line(935,  60, 940,  55);
+    line(940,  55, 1010, 55);
+    line(1010, 55, 1015, 60);
+    line(1015, 60, 1040, 60);
+    line(1040, 60, 1045, 55);
+    line(1045, 55, 1115, 55);
+    line(1115, 55, 1120, 60);
+    
     stroke(255,100);
-    line(885, 122, 1180, 122);
+    line(885, 152, 1180, 152);
     
-    textSize(18);
+    textSize(20);
     fill(255);
     textAlign(CENTER);
-    text(cityName, 1027, 70);
+    text(cityName, 1027, 110);
     
     PImage icon;
     textSize(14);
     icon = loadImage("eye.png");
-    image(icon, 1017,150, 20, 20);
+    image(icon, 1017,180, 20, 20);
     for (int i = 0; i < 3; i++){
       fill(getEcol(i));
-      ellipse(1027, 190 + (i * 20), 10, 10);
+      ellipse(1027, 220 + (i * 20), 10, 10);
       fill(255);
-      text(cityData[i + 2], 950, 193 + (i * 20));
-      text(history[i + 3], 1104, 193 + (i * 20));
+      text(cityData[i + 2], 950, 223 + (i * 20));
+      text(history[i + 3], 1104, 223 + (i * 20));
     }
     
     strokeWeight(1);
     stroke(255,100);
-    line(905, 245, 1160, 245);
+    line(905, 275, 1160, 275);
     
     icon = loadImage("skin.png");
-    image(icon, 1017,250, 20, 20);
+    image(icon, 1017,280, 20, 20);
     for (int i = 0; i < 7; i++){
       fill(getScol(i));
-      ellipse(1027, 290 + (i * 20), 10, 10);
+      ellipse(1027, 320 + (i * 20), 10, 10);
       fill(255);
-      text(cityData[i + 5], 950, 293 + (i * 20));
-      text(history[i + 6], 1104, 293 + (i * 20));
+      text(cityData[i + 5], 950, 323 + (i * 20));
+      text(history[i + 6], 1104, 323 + (i * 20));
     }
     
-    line(905, 425, 1160, 425);
+    line(905, 455, 1160, 455);
     icon = loadImage("hair.png");
-    image(icon, 1017,430, 20, 20);
+    image(icon, 1017,460, 20, 20);
     for (int i = 0; i < 5; i++){
       fill(getHcol(i));
-      ellipse(1027, 470 + (i * 20), 10, 10);
+      ellipse(1027, 500 + (i * 20), 10, 10);
       fill(255);
-      text(cityData[i + 12], 950, 473 + (i * 20));
-      text(history[i + 13], 1104, 473 + (i * 20));
+      text(cityData[i + 12], 950, 503 + (i * 20));
+      text(history[i + 13], 1104, 503 + (i * 20));
     }
     
-    line(905, 565, 1160, 565);
+    line(905, 595, 1160, 595);
     icon = loadImage("blood.png");
-    image(icon, 1017, 570, 20, 20);
-    text("A",  1027, 620);
-    text("A",  1027, 640);
-    text("AB", 1027, 660);
-    text("O",  1027, 680);
-    text(cityData[17], 950, 620);
-    text(cityData[18], 950, 640);
-    text(cityData[19], 950, 660);
-    text(cityData[20], 950, 680);
-    text(history[18], 1104, 620);
-    text(history[19], 1104, 640);
-    text(history[20], 1104, 660);
-    text(history[21], 1104, 680);
+    image(icon, 1017, 600, 20, 20);
+    text("A",  1027, 650);
+    text("B",  1027, 670);
+    text("AB", 1027, 690);
+    text("O",  1027, 710);
+    text(cityData[17], 950,  650);
+    text(cityData[18], 950,  670);
+    text(cityData[19], 950,  690);
+    text(cityData[20], 950,  710);
+    text(history[18],  1104, 650);
+    text(history[19],  1104, 670);
+    text(history[20],  1104, 690);
+    text(history[21],  1104, 710);
     
     stroke(255);
     strokeWeight(1);
-    line(imgW+80, 20, imgW+80+min(disp, 33), 20);
-    line(imgW+113, 20, imgW+113+min(disp, 33), 20);
-    line(imgW+146, 20, imgW+146+min(disp, 33), 20);
+    line(imgW+80,  50, imgW+80+ min(disp, 33), 50);
+    line(imgW+113, 50, imgW+113+min(disp, 33), 50);
+    line(imgW+146, 50, imgW+146+min(disp, 33), 50);
+    
     line(x, y + 20, x+5, y + 15);
     line(x, y + 20, x-5, y + 15);
     line(x, y - 20, x+5, y - 15);

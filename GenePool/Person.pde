@@ -8,12 +8,12 @@ class Person {
   public int[][] gene = new int[9][2];
   int[][] child = new int[9][2];
   
-  Person(int[][] g, int gnd){
+  Person(int[][] g, int gnd, float Age){
     for (int i = 1; i <= 8; i++){
       gene[i][0] = g[i][0];
       gene[i][1] = g[i][1];
     }
-    age    = 0.0;
+    age    = Age;
     alive  = true;
     gender = gnd;
     maxAge = random(50, 90);
@@ -56,7 +56,7 @@ class Person {
     child[7][1] = x.gene[7][(mh >> 1) % 2];
     child[8][0] = gene[8][dh % 2];
     child[8][1] = x.gene[8][mh % 2];
-    Person newChild = new Person(child, gn);
+    Person newChild = new Person(child, gn, 0.0);
     return newChild;
   }
   
